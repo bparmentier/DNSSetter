@@ -1,0 +1,50 @@
+<!--
+  ~ Copyright (c) 2014 Bruno Parmentier. This file is part of DNSSetter.
+  ~
+  ~ DNSSetter is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ DNSSetter is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with DNSSetter.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+        <Preference
+            android:key="pref_version"
+            android:title="@string/pref_title_version" />
+
+        <Preference
+            android:summary="https://github.com/bparmentier/DNSSetter"
+            android:title="@string/pref_title_source_code">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/bparmentier/DNSSetter" />
+        </Preference>
+
+        <Preference
+            android:summary="http://www.brunoparmentier.be"
+            android:title="@string/pref_title_developers_website">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://www.brunoparmentier.be" />
+        </Preference>
+
+        <be.brunoparmentier.dnssetter.InfoDialogPreference
+            android:dialogMessage="@string/pref_title_license_message"
+            android:dialogTitle="@string/pref_title_license"
+            android:summary="GPLv3"
+            android:title="@string/pref_title_license" />
+
+        <Preference
+            android:key="pref_donate_bitcoin"
+            android:summary="168utA5DWMVXLFVfQDahG5abEWUSk9Wcfm"
+            android:title="@string/pref_title_donate_bitcoin">
+        </Preference>
+</PreferenceScreen>
