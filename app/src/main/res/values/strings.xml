@@ -44,4 +44,12 @@
         along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.\n
     </string>
 
+    <string name="firstrun_dialog_message">
+        DNSSetter lets you change the DNS servers on your mobile connection (3G, 4G, etc.).\n
+        \nWarning! Your device must be rooted!\n
+        \nThe app is currently using the \"setprop\" method. This might not work for you. If so,
+        please let me know so I can add other methods.
+    </string>
+    <string name="firstrun_dialog_ok">OK</string>
+
 </resources>

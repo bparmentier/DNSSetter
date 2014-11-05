@@ -18,9 +18,13 @@
 package be.brunoparmentier.dnssetter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +40,7 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends Activity {
     private final String TAG = "MainActivity";
+    private final String PREF_IS_FIRST_RUN = "is_first_run";
     private EditText editdns1;
     private EditText editdns2;
     private Button applyButton;
@@ -61,6 +66,21 @@ public class MainActivity extends Activity {
             }
         });
         (new SetCurrentDNSTask()).execute();
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean firstRun = settings.getBoolean(PREF_IS_FIRST_RUN, true);
+        if (firstRun) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.firstrun_dialog_message)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.firstrun_dialog_ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            settings.edit().putBoolean(PREF_IS_FIRST_RUN, false).apply();
+        }
     }
 
     @Override
