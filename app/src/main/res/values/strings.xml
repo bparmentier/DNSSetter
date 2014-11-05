@@ -45,10 +45,11 @@
     </string>
 
     <string name="firstrun_dialog_message">
-        DNSSetter lets you change the DNS servers on your mobile connection (3G, 4G, etc.).\n
-        \nWarning! Your device must be rooted!\n
+        DNSSetter lets you change your DNS servers.
+        This will not resist if your IP address changes or if you reboot your device.\n
         \nThe app is currently using the \"setprop\" method. This might not work for you. If so,
-        please let me know so I can add other methods.
+        please let me know so I can try adding other methods.\n
+        \nWarning! Your device must be rooted!
     </string>
     <string name="firstrun_dialog_ok">OK</string>
 
