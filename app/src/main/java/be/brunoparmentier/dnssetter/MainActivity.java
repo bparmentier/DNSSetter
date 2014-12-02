@@ -46,12 +46,14 @@ public class MainActivity extends Activity {
     private Button applyButton;
     private TextView currentDNS1;
     private TextView currentDNS2;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
         currentDNS1 = (TextView) findViewById(R.id.currentdns1);
         currentDNS2 = (TextView) findViewById(R.id.currentdns2);
         editdns1 = (EditText) findViewById(R.id.editdns1);
@@ -65,9 +67,14 @@ public class MainActivity extends Activity {
                 (new SetDNSTask()).execute(dns1, dns2);
             }
         });
+
+        String prefDNS1 = settings.getString("pref_dns1", "");
+        String prefDNS2 = settings.getString("pref_dns2", "");
+        editdns1.setText(prefDNS1);
+        editdns2.setText(prefDNS2);
+
         (new SetCurrentDNSTask()).execute();
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         boolean firstRun = settings.getBoolean(PREF_IS_FIRST_RUN, true);
         if (firstRun) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -128,6 +135,9 @@ public class MainActivity extends Activity {
                 String dns2 = strings[1];
                 String cmd1 = "setprop net.dns1 " + dns1;
                 String cmd2 = "setprop net.dns2 " + dns2;
+
+                settings.edit().putString("pref_dns1", dns1).apply();
+                settings.edit().putString("pref_dns2", dns2).apply();
 
                 List<String> retcmd1 = Shell.SU.run(cmd1);
                 List<String> retcmd2 = Shell.SU.run(cmd2);
