@@ -40,7 +40,9 @@ import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
-    private static final String PREF_IS_FIRST_RUN = "is_first_run";
+    private static final String PREF_KEY_IS_FIRST_RUN = "is_first_run";
+    private static final String PREF_KEY_DNS1 = "pref_dns1";
+    private static final String PREF_KEY_DNS2 = "pref_dns2";
     private EditText editdns1;
     private EditText editdns2;
     private Button applyButton;
@@ -68,14 +70,14 @@ public class MainActivity extends Activity {
             }
         });
 
-        String prefDNS1 = settings.getString("pref_dns1", "");
-        String prefDNS2 = settings.getString("pref_dns2", "");
+        String prefDNS1 = settings.getString(PREF_KEY_DNS1, "");
+        String prefDNS2 = settings.getString(PREF_KEY_DNS2, "");
         editdns1.setText(prefDNS1);
         editdns2.setText(prefDNS2);
 
         (new SetCurrentDNSTask()).execute();
 
-        boolean firstRun = settings.getBoolean(PREF_IS_FIRST_RUN, true);
+        boolean firstRun = settings.getBoolean(PREF_KEY_IS_FIRST_RUN, true);
         if (firstRun) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.firstrun_dialog_message)
@@ -86,7 +88,7 @@ public class MainActivity extends Activity {
                     });
             AlertDialog dialog = builder.create();
             dialog.show();
-            settings.edit().putBoolean(PREF_IS_FIRST_RUN, false).apply();
+            settings.edit().putBoolean(PREF_KEY_IS_FIRST_RUN, false).apply();
         }
     }
 
@@ -136,8 +138,8 @@ public class MainActivity extends Activity {
                 String cmd1 = "setprop net.dns1 " + dns1;
                 String cmd2 = "setprop net.dns2 " + dns2;
 
-                settings.edit().putString("pref_dns1", dns1).apply();
-                settings.edit().putString("pref_dns2", dns2).apply();
+                settings.edit().putString(PREF_KEY_DNS1, dns1).apply();
+                settings.edit().putString(PREF_KEY_DNS2, dns2).apply();
 
                 List<String> retcmd1 = Shell.SU.run(cmd1);
                 List<String> retcmd2 = Shell.SU.run(cmd2);
