@@ -39,8 +39,8 @@ import java.util.List;
 import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends Activity {
-    private final String TAG = "MainActivity";
-    private final String PREF_IS_FIRST_RUN = "is_first_run";
+    private static final String TAG = "MainActivity";
+    private static final String PREF_IS_FIRST_RUN = "is_first_run";
     private EditText editdns1;
     private EditText editdns2;
     private Button applyButton;
