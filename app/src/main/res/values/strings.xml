@@ -13,7 +13,7 @@
   ~ GNU General Public License for more details.
   ~
   ~ You should have received a copy of the GNU General Public License
-  ~ along with DNSSetter.  If not, see <http://www.gnu.org/licenses/>.
+  ~ along with DNSSetter.  If not, see <https://www.gnu.org/licenses/>.
   -->
 
 <resources>
@@ -46,10 +46,10 @@
 
     <string name="firstrun_dialog_message">
         DNSSetter lets you change your DNS servers. This is temporary and it will not resist if your
-        IP address changes or if you reboot your device.\n
+        IP address changes or if you reboot your operating system.\n
         \nThe app is currently using the \"setprop\" method. This might not work for you. If so,
         please let me know so I can try adding other methods.\n
-        \nWarning! Your device must be rooted!
+        \nWarning! Your operating system must be rooted!
     </string>
     <string name="firstrun_dialog_ok">OK</string>
 
