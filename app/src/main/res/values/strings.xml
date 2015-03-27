@@ -41,12 +41,12 @@
         GNU General Public License for more details.\n
 
         \nYou should have received a copy of the GNU General Public License
-        along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.\n
+        along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.\n
     </string>
 
     <string name="firstrun_dialog_message">
         DNSSetter lets you change your DNS servers. This is temporary and it will not resist if your
-        IP address changes or if you reboot your operating system.\n
+        IP address changes or if you restart your operating system.\n
         \nThe app is currently using the \"setprop\" method. This might not work for you. If so,
         please let me know so I can try adding other methods.\n
         \nWarning! Your operating system must be rooted!
