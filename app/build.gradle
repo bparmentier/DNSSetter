@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 Bruno Parmentier. This file is part of DNSSetter.
+ * Copyright (c) 2014-2015 Bruno Parmentier. This file is part of DNSSetter.
  *
  * DNSSetter is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "be.brunoparmentier.dnssetter"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 2
         versionName "0.1.1"
     }
