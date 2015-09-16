@@ -25,7 +25,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,10 +33,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import eu.chainfire.libsuperuser.Shell;
 
 public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
@@ -115,11 +111,7 @@ public class MainActivity extends Activity {
 
         @Override
         protected List<String> doInBackground(Void... voids) {
-            List<String> cmds = new ArrayList<>();
-            for (int i = 1; i <= 2; i++) {
-                cmds.add("getprop net.dns" + i);
-            }
-            return Shell.SH.run(cmds);
+            return DNSManager.getDNS();
         }
 
         @Override
@@ -138,21 +130,13 @@ public class MainActivity extends Activity {
     private class SetDNSTask extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... dns) {
-            if (Shell.SU.available()) {
-                List<String> cmds = new ArrayList<>();
-                for (int i = 1; i <= 2; i++) {
-                    cmds.add("setprop net.dns" + i + " " + dns[i - 1]);
-                }
+            DNSManager.setDNS(dns);
 
-                SharedPreferences.Editor settingsEditor = settings.edit();
-                settingsEditor.putString(PREF_KEY_DNS1, dns[0]);
-                settingsEditor.putString(PREF_KEY_DNS2, dns[1]);
-                settingsEditor.apply();
+            SharedPreferences.Editor settingsEditor = settings.edit();
+            settingsEditor.putString(PREF_KEY_DNS1, dns[0]);
+            settingsEditor.putString(PREF_KEY_DNS2, dns[1]);
+            settingsEditor.apply();
 
-                if (Shell.SU.run(cmds) == null) {
-                    Log.e(TAG, "Root command failed");
-                }
-            }
             return null;
         }
 
