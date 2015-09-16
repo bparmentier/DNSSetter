@@ -32,6 +32,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,6 @@ public class MainActivity extends Activity {
     private static final String PREF_KEY_DNS2 = "pref_dns2";
     private EditText editdns1;
     private EditText editdns2;
-    private Button applyButton;
     private TextView currentDNS1;
     private TextView currentDNS2;
     private SharedPreferences settings;
@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
         currentDNS2 = (TextView) findViewById(R.id.currentdns2);
         editdns1 = (EditText) findViewById(R.id.editdns1);
         editdns2 = (EditText) findViewById(R.id.editdns2);
-        applyButton = (Button) findViewById(R.id.applydns);
+        Button applyButton = (Button) findViewById(R.id.applydns);
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,39 +112,44 @@ public class MainActivity extends Activity {
     }
 
     private class SetCurrentDNSTask extends AsyncTask<Void, Void, List<String>> {
-        List<String> dns1 = new ArrayList<String>();
-        List<String> dns2 = new ArrayList<String>();
 
         @Override
         protected List<String> doInBackground(Void... voids) {
-            dns1 = Shell.SH.run("getprop net.dns1");
-            dns2 = Shell.SH.run("getprop net.dns2");
-            return null;
+            List<String> cmds = new ArrayList<>();
+            for (int i = 1; i <= 2; i++) {
+                cmds.add("getprop net.dns" + i);
+            }
+            return Shell.SH.run(cmds);
         }
 
         @Override
-        protected void onPostExecute(List<String> strings) {
-            currentDNS1.setText(dns1.get(0));
-            currentDNS2.setText(dns2.get(0));
+        protected void onPostExecute(List<String> dnsList) {
+            if (dnsList == null) {
+                Toast.makeText(getApplicationContext(),
+                        "Error getting dns info",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                currentDNS1.setText(dnsList.get(0));
+                currentDNS2.setText(dnsList.get(1));
+            }
         }
     }
 
     private class SetDNSTask extends AsyncTask<String, Void, Void> {
         @Override
-        protected Void doInBackground(String... strings) {
+        protected Void doInBackground(String... dns) {
             if (Shell.SU.available()) {
-                String dns1 = strings[0];
-                String dns2 = strings[1];
-                String cmd1 = "setprop net.dns1 " + dns1;
-                String cmd2 = "setprop net.dns2 " + dns2;
+                List<String> cmds = new ArrayList<>();
+                for (int i = 1; i <= 2; i++) {
+                    cmds.add("setprop net.dns" + i + " " + dns[i - 1]);
+                }
 
-                settings.edit().putString(PREF_KEY_DNS1, dns1).apply();
-                settings.edit().putString(PREF_KEY_DNS2, dns2).apply();
+                SharedPreferences.Editor settingsEditor = settings.edit();
+                settingsEditor.putString(PREF_KEY_DNS1, dns[0]);
+                settingsEditor.putString(PREF_KEY_DNS2, dns[1]);
+                settingsEditor.apply();
 
-                List<String> retcmd1 = Shell.SU.run(cmd1);
-                List<String> retcmd2 = Shell.SU.run(cmd2);
-
-                if (retcmd1 == null || retcmd2 == null) {
+                if (Shell.SU.run(cmds) == null) {
                     Log.e(TAG, "Root command failed");
                 }
             }
